@@ -24,7 +24,8 @@ def _load_env_file(path: Path) -> None:
             key, val = line.split("=", 1)
             key = key.strip()
             val = val.strip().strip('"').strip("'")
-            if key and key not in os.environ:
+            if key:
+                # Always prefer .env values on app start to simplify desktop configuration
                 os.environ[key] = val
     except Exception:
         # Best-effort; ignore format errors
@@ -58,8 +59,8 @@ class Settings(BaseSettings):
     ENABLE_CLOUD_FALLBACK: bool = False  # Only for development
     
     # Model Configuration
-    # Mistral API model name - see https://docs.mistral.ai/api/
-    DEFAULT_LLM_MODEL: str = "mistral-tiny"  # Mistral API
+    # LLM model name provided via .env (e.g., mistral-medium-latest)
+    DEFAULT_LLM_MODEL: str = ""
     WHISPER_MODEL: str = "base"
     
     # Paths (OS-specific)

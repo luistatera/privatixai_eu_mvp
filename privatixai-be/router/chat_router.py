@@ -122,7 +122,11 @@ async def ask_question(request: ChatRequest):
             content_text = response.content
         except LLMError as e:
             if str(e) == "mistral_api_unauthorized":
-                content_text = "The reasoning service credentials are invalid. Please update the Mistral API key and try again."
+                # Build a simple summarization from first few snippets
+                top_snippets = [c.get("snippet") for c in citations if c.get("snippet")][:3]
+                joined = "\n\n".join(top_snippets) if top_snippets else ""
+                prefix = "The reasoning service credentials are invalid. Please update the Mistral API key and try again."
+                content_text = f"{prefix}\n\nHere are relevant snippets from your files:\n\n{joined}" if joined else prefix
             else:
                 content_text = (
                     "I couldn't reach the reasoning service right now, but here are relevant sources from your vault. "

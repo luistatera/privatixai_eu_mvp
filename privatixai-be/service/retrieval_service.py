@@ -528,6 +528,30 @@ def retrieve(
                 "retry_k": retry_k
             })
     
+    # Emergency fallback: if still empty, return top results ignoring min_score
+    if not results:
+        try:
+            logger.info({"event": "retrieval_emergency_fallback", "reason": "no_results_after_retry"})
+            raw_hits = search_top_k(query, max(k, settings.RETRIEVAL_TOPK))
+            # Normalize without min_score filtering
+            norm_results: List[Dict] = []
+            for h in raw_hits[:k]:
+                md = h.get("metadata", {})
+                item = {
+                    "chunk_id": md.get("chunk_id"),
+                    "file_id": md.get("file_id"),
+                    "file_name": md.get("file_name"),
+                    "file_ext": md.get("file_ext"),
+                    "start": md.get("start"),
+                    "end": md.get("end"),
+                    "score": h.get("score"),
+                }
+                item["snippet"] = assemble_snippet(item)
+                norm_results.append(item)
+            results = norm_results
+        except Exception:
+            pass
+
     logger.info({"event": "retrieval_completed", "final_results": len(results)})
     emit_event("retrieval_completed", {"results": len(results)})
     return results
