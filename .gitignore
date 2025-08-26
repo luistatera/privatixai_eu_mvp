@@ -1,0 +1,162 @@
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Env files (keep template tracked)
+.env
+.env.*
+privatixai-be/.env
+privatixai-be/.env.*
+privatixai-fe/.env
+privatixai-fe/.env.*
+!privatixai-be/config.env
+
+# Local data (user content, vector stores, models)
+data/
+privatixai-be/vectorstore/
+privatixai-be/uploads/
+privatixai-be/data/
+
+# Python (backend)
+privatixai-be/venv/
+privatixai-be/.venv/
+privatixai-be/**/__pycache__/
+privatixai-be/**/*.pyc
+privatixai-be/.mypy_cache/
+privatixai-be/.pytest_cache/
+privatixai-be/.ruff_cache/
+privatixai-be/.coverage*
+**/*.egg-info/
+
+# Node / Frontend
+privatixai-fe/node_modules/
+privatixai-fe/dist/
+privatixai-fe/build/
+privatixai-fe/.vite/
+privatixai-fe/.cache/
+privatixai-fe/.eslintcache
+privatixai-fe/coverage/
+privatixai-fe/out/
+privatixai-fe/release/
+
+# Temporary files
+# temp/
+*.tmp
+*.temp
+
+# Sensitive docs (infra details)
+docs/server_info.md
+
+# Keep placeholders if needed
+!.gitkeep
+
+# ---- General ----
+.DS_Store
+Thumbs.db
+*.log
+*.pid
+*.seed
+*.swo
+*.swp
+*.tmp
+*.temp
+*.orig
+*.bak
+
+# ---- Editors / IDE ----
+.vscode/
+.idea/
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*$py.class
+.python-version
+
+# Virtual environments
+.venv/
+venv/
+env/
+**/.venv/
+**/venv/
+**/env/
+
+# Python tooling caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.cache/
+
+# Python build artifacts
+build/
+dist/
+site/
+*.egg-info/
+htmlcov/
+.coverage
+coverage/
+coverage.xml
+
+# Native artifacts
+*.so
+*.dylib
+*.dll
+
+# ---- Node / Web / Electron ----
+node_modules/
+**/node_modules/
+dist-electron/
+**/dist-electron/
+dist/
+**/dist/
+out/
+**/.vite/
+.eslintcache
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.tsbuildinfo
+
+# ---- Environment / Secrets ----
+.env
+.env.*
+*.env
+**/.env
+**/.env.*
+config.env
+**/config.env
+!.env.example
+
+# ---- Project data / generated stores ----
+data/
+**/vectorstore/
+
+# ---- Project-specific ignores ----
+# Backend venv (if present inside repo)
+privatixai-be/venv/
+privatixai-be/venv/**
+
+# Frontend build outputs (explicit)
+privatixai-fe/dist-electron/
+privatixai-fe/dist/
+privatixai-fe/node_modules/
+
+# Documentation folder
+docs/
+infra/
+
+# Cursor
+.cursor/
+ops/

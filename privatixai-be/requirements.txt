@@ -1,0 +1,40 @@
+# PrivatixAI Backend Dependencies
+
+# Core Framework
+fastapi==0.110.0
+uvicorn[standard]==0.27.1
+pydantic==2.6.4
+pydantic-settings==2.2.1
+
+# HTTP Client (hosted LLM bridge)
+httpx[http2]==0.25.2
+
+# File Uploads & Type Detection
+python-multipart==0.0.9
+python-magic==0.4.27
+
+# Vector Store & Embeddings (Local)
+chromadb==0.4.24
+sentence-transformers==2.7.0
+# Torch required for sentence-transformers and Whisper
+# Pin numpy <2.0 due to chromadb/numpy 2.0 incompatibility
+numpy<2.0
+torch==2.2.2
+
+# Audio Processing (Local Whisper)
+openai-whisper==20231117
+# Optional: audio metadata for preflight duration checks
+mutagen==1.47.0
+# Note: ffmpeg must be installed on the system (e.g., `brew install ffmpeg` or `apt-get install ffmpeg`)
+
+# Document Processing (.pdf, .docx, .md, .html)
+pypdf==4.2.0
+python-docx==1.1.0
+beautifulsoup4==4.12.3
+markdown==3.6
+
+# Security / Crypto (AES-256 at rest)
+cryptography==42.0.5
+
+# Testing
+pytest==8.2.0
