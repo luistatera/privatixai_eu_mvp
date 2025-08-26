@@ -252,25 +252,28 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## 🗺️ Roadmap
 
-### Version 1.0 (Current)
-- ✅ Basic chat functionality
-- ✅ File upload and processing
-- ✅ Local LLM integration
+### Version 0.1 (Current)
+- ✅ Basic chat interface with AI assistant
+- ✅ Simple file upload (PDF, DOCX, TXT)
+- ✅ Basic document processing and indexing
+- ✅ Local AI model integration (requires Ollama setup)
+- ✅ Basic memory of uploaded documents
+- ✅ Simple question-answering from your files
 
-### Version 1.1 (Next)
+### Version 1.0 (Next)
 - 🔄 License management (device-bound, offline)
-- 🔄 Advanced vector search
-- 🔄 Batch file processing
-- 🔄 Export functionality
-- 🔄 UI/UX improvements
-- 🔄 Support Windows and Linux version
-- 🔄 Optimize prompt strategy (lower the cost aprox 10x)
-- 🔄 Add option for users to use their own LLM provider
-- 🔄 Add option for users to use their own API KEY for their preferred LLM Provider
-- 🔄 Documents: PDF, DOCX, MD, TXT
-- 🔄 Audio: MP3, WAV, M4A, FLAC
-- 🔄 Video: MP4, MOV, AVI (transcription)
-- 🔄 Subtitles: SRT, VTT, ASS
+- 🔄 Advanced search across your documents
+- 🔄 Upload multiple files at once
+- 🔄 Save and export your conversations
+- 🔄 Improved user interface and experience
+- 🔄 Support for Windows and Linux
+- 🔄 Better AI responses and accuracy
+- 🔄 Option to use your own AI provider
+- 🔄 Support for more file types:
+  - Documents: PDF, DOCX, MD, TXT
+  - Audio: MP3, WAV, M4A, FLAC
+  - Video: MP4, MOV, AVI (with transcription)
+  - Subtitles: SRT, VTT, ASS
 
 ---
 
