@@ -7,7 +7,7 @@
 [![Cross Platform](https://img.shields.io/badge/Platform-Cross-orange.svg)](https://github.com/privatixai/privatixai)
 
 
-A privacy-first, fully offline AI Cahtbot assistant for personal knowledge management. Built with Electron, React, FastAPI, and local AI models.
+A privacy-first, fully offline AI Chatbot assistant for personal knowledge management. Built with Electron, React, FastAPI, and local AI models.
 
 **Visit our official website: [https://privatixai.eu/](https://privatixai.eu/)**
 
@@ -15,19 +15,19 @@ A privacy-first, fully offline AI Cahtbot assistant for personal knowledge manag
 
 **100% Local Processing • Zero Cloud Dependencies • Complete Data Sovereignty**
 
-PrivatixAI Cahtbot ensures your personal data never leaves your device while providing powerful AI assistance for document analysis, transcription, and knowledge management.
+PrivatixAI Chatbot ensures your personal data never leaves your device while providing powerful AI assistance for document analysis, transcription, and knowledge management.
 
 ## ✨ Features
 
 ### 🔒 Privacy & Security
-- **Fully Offline**: All AI processing happens locally
-- **No Cloud APIs**: Zero external network requests
-- **Data Sovereignty**: Your data stays on your device
+- **Offline Documents**: All docs are locally
+- **No Cloud Storage**: Zero external storage
+- **Data Sovereignty**: Your data stays on your device, a fraction is sent to EU server (with restrict GDPR policies in place)
 
 ### 🧠 AI Capabilities
 - **Local LLM**: Powered by Ollama (Mistral, Llama, etc.)
 - **Speech-to-Text**: Whisper-based transcription
-- **Document Analysis**: PDF, DOCX, TXT processing
+- **Document Analysis**: PDF, DOCX processing
 - **Vector Search**: ChromaDB-powered memory
 
 ### 📁 File Support
@@ -36,7 +36,7 @@ PrivatixAI Cahtbot ensures your personal data never leaves your device while pro
 
 ### 🖥️ User Experience
 - **Single App**: One download, zero configuration
-- **Cross-Platform**: macOS, Windows, Linux
+- **Cross-Platform**: macOS, (Next version with Windows and Linux)
 - **Desktop Native**: Full Electron experience
 - **Non-Technical Friendly**: No terminal required
 
@@ -178,7 +178,7 @@ privatixai/
 - **Frontend**: Electron, React, TypeScript, Tailwind CSS
 - **Backend**: FastAPI, Python, Pydantic
 - **AI Stack**: Ollama, Whisper, ChromaDB, SentenceTransformers
-- **Storage**: Local file system, SQLite, Vector DB
+- **Storage**: Local file system, Vector DB
 
 ### Build & Package
 
@@ -254,11 +254,12 @@ This project is licensed under the [MIT License](LICENSE).
 
 ### Version 0.1 (Current)
 - ✅ Basic chat interface with AI assistant
-- ✅ Simple file upload (PDF, DOCX, TXT)
-- ✅ Basic document processing and indexing
-- ✅ Local AI model integration (requires Ollama setup)
-- ✅ Basic memory of uploaded documents
-- ✅ Simple question-answering from your files
+- ✅ File upload (PDF, DOCX, TXT)
+- ✅ Document processing and indexing
+- ✅ Youtube Video (transcription) Ingestion
+- ✅ Local AI model integration
+- ✅ Memory of uploaded documents
+- ✅ Question-answering from your files
 
 ### Version 1.0 (Next)
 - 🔄 License management (device-bound, offline)
@@ -270,7 +271,7 @@ This project is licensed under the [MIT License](LICENSE).
 - 🔄 Better AI responses and accuracy
 - 🔄 Option to use your own AI provider
 - 🔄 Support for more file types:
-  - Documents: PDF, DOCX, MD, TXT
+  - Documents: MD, TXT
   - Audio: MP3, WAV, M4A, FLAC
   - Video: MP4, MOV, AVI (with transcription)
   - Subtitles: SRT, VTT, ASS
