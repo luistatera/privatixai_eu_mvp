@@ -27,62 +27,14 @@ def get_warmup_state() -> Dict[str, Any]:
     return _warmup_state.copy()
 
 def _preload_embedder() -> bool:
-    """Preload the SentenceTransformer model and run a warmup encode"""
+    """Mark embedder as loaded (Chroma handles embeddings internally)."""
     try:
-        logger.info({"event": "embedder_preload_started"})
-        start_time = time.time()
-        
-        # Force model to load by importing and using _get_model
-        from ingestion.embed import _get_model, is_model_loaded
-        
-        # Check if already loaded (in case of multiple startup calls)
-        if is_model_loaded():
-            logger.info({"event": "embedder_already_loaded"})
-            _warmup_state["embedder_loaded"] = True
-            return True
-            
-        model = _get_model()
-        
-        # Run warmup encode using the exact same code path as retrieval
-        logger.info({"event": "embedder_warmup_encode_started"})
-        from ingestion.embed import embed_texts
-        
-        # Use a more representative warmup text that exercises the model fully
-        warmup_texts = [
-            "hello world",
-            "This is a longer test sentence to ensure the model is fully warmed up and ready for production queries with various lengths and complexities."
-        ]
-        # Use the same embed_texts function that retrieval_service uses
-        embeddings = embed_texts(warmup_texts)
-        
-        # Also warm up the retrieval service cache by calling embed_query directly
-        from service.retrieval_service import embed_query
-        _ = embed_query("warmup query")
-        
-        logger.info({
-            "event": "embedder_warmup_encode_completed",
-            "warmup_texts_count": len(warmup_texts),
-            "embedding_dimension": len(embeddings[0]) if embeddings and embeddings[0] else 0
-        })
-        
-        duration = time.time() - start_time
-        logger.info({
-            "event": "embedder_preload_completed", 
-            "duration_seconds": round(duration, 2)
-        })
-        emit_event("embedder_preloaded", {"duration_seconds": duration})
-        
+        logger.info({"event": "embedder_preload_skipped", "reason": "chromadb_text_embeddings"})
         _warmup_state["embedder_loaded"] = True
+        emit_event("embedder_preloaded", {"duration_seconds": 0.0})
         return True
-        
-    except Exception as e:
-        logger.error({
-            "event": "embedder_preload_failed",
-            "error": str(e),
-            "message": "Embedder will be loaded on first request"
-        })
-        emit_event("embedder_preload_failed", {"error": str(e)[:200]})
-        return False
+    except Exception:
+        return True
 
 def _warm_vector_store() -> bool:
     """Initialize Chroma client and collection, run dummy query to warm index"""
@@ -109,14 +61,11 @@ def _warm_vector_store() -> bool:
         docs_count = collection.count()
         _warmup_state["collection_docs_count"] = docs_count
         
-        # Run dummy query to warm index pages if we have documents
+        # Run dummy text query to warm index pages if we have documents
         if docs_count > 0:
             logger.info({"event": "vectorstore_warmup_query_started", "docs_count": docs_count})
-            
-            # Create a dummy embedding vector (BGE-m3 has 1024 dimensions)
-            dummy_embedding = [0.0] * 1024
             _ = collection.query(
-                query_embeddings=[dummy_embedding], 
+                query_texts=["warmup"], 
                 n_results=min(1, docs_count),
                 include=["metadatas", "distances"]
             )

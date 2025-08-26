@@ -25,7 +25,8 @@ class MistralApiProvider(LLMInterface):
     """Direct Mistral API provider."""
 
     def __init__(self) -> None:
-        self.model_name = settings.DEFAULT_LLM_MODEL or "mistral-tiny"
+        # Respect DEFAULT_LLM_MODEL only; do not hardcode a model fallback
+        self.model_name = settings.DEFAULT_LLM_MODEL
         
         if not settings.MISTRAL_API_KEY:
             raise RuntimeError("MISTRAL_API_KEY is not configured")

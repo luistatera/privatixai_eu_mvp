@@ -11,7 +11,7 @@ import logging
 from pathlib import Path
 from logging.handlers import RotatingFileHandler
 
-from config.settings import settings, validate_paths, get_local_embedding_model_dir
+from config.settings import settings, validate_paths
 from router import chat_router, memory_router, upload_router
 from utils.telemetry import get_recent_events
 from router import privacy_router
@@ -99,13 +99,7 @@ async def startup_event():
     })
     # Ensure data directories exist
     validate_paths()
-    emb_dir = get_local_embedding_model_dir()
-    if not emb_dir.exists():
-        logger.warning({
-            "event": "embedding_model_missing",
-            "expected_dir": str(emb_dir),
-            "message": "Local BGE-m3 model directory is missing; app will fail when embedding is requested. Ensure installer bundles the model."
-        })
+    # No external embedding model required when using Chroma text embeddings
     
     # Preload and warm critical components
     await startup_warmup()

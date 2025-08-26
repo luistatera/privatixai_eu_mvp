@@ -18,9 +18,8 @@ from pathlib import Path
 from config.settings import settings
 from functools import lru_cache
 from datetime import timedelta, datetime
-from ingestion.embed import embed_texts, embed_queries
 from service.encryption_service import decrypt_file
-from vectorstore.chroma_store import query as vs_query, get_stats
+from vectorstore.chroma_store import query as vs_query, query_texts as vs_query_texts, get_stats, list_all_documents
 from utils.telemetry import emit_event
 import math
 
@@ -238,30 +237,19 @@ def _cache_put(key: str, value: List[float]) -> None:
 
 
 def embed_query(query: str) -> List[float]:
-    """Return a single embedding vector for the query string, with simple TTL cache."""
-    cached = _cache_get(query)
-    if cached is not None:
-        return cached
-    # Use BGE-m3 recommended query prefix and normalized embeddings
-    vectors = embed_queries([query])
-    vec = vectors[0] if vectors else []
-    _cache_put(query, vec)
-    return vec
+    """Deprecated with Chroma text querying; kept for compatibility."""
+    return []
 
 
 def search_top_k(query: str, k: int = 8) -> List[Dict]:
-    """Search vectorstore for top-k hits with metadata and scores."""
-    embedding = embed_query(query)
-    if not embedding:
-        return []
-    hits = vs_query(embedding=embedding, k=k)
+    """Search vectorstore for top-k hits with metadata and scores (Chroma text query)."""
+    hits = vs_query_texts(query_text=query, k=k)
     try:
         # Lightweight instrumentation for debug panels
         logger.info({
             "event": "vector_query_executed",
             "requested_k": k,
-            "returned": len(hits),
-            "query_norm": round(sum(x*x for x in embedding) ** 0.5, 4)
+            "returned": len(hits)
         })
     except Exception:
         pass

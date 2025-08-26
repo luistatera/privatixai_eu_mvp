@@ -61,8 +61,13 @@ class LLMService:
                 )
                 logger.info({"event": "llm_query_completed", "provider": "mistral_api", "tokens": response.usage.get("total_tokens", 0)})
                 return response
-            except LLMUnavailableError as e:
-                logger.exception("Mistral API provider unavailable")
+            except (LLMUnavailableError, RuntimeError) as e:
+                # Normalize all provider failures to LLMError for callers to gracefully handle
+                logger.exception("Mistral API provider error")
+                # Preserve unauthorized signal for better UX
+                message = str(e)
+                if "401" in message or "Unauthorized" in message:
+                    raise LLMError("mistral_api_unauthorized")
                 raise LLMError("mistral_api_unavailable")
         
         # No provider configured/available (e.g., missing API key)

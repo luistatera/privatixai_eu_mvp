@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from vectorstore.chroma_store import upsert_embeddings, get_stats
+from vectorstore.chroma_store import add_documents, get_stats
 
 
 def test_chroma_upsert_and_stats(tmp_path: Path, monkeypatch):
@@ -13,14 +13,17 @@ def test_chroma_upsert_and_stats(tmp_path: Path, monkeypatch):
     monkeypatch.setenv("PRIVATIXAI_VECTORSTORE_PATH", str(vs_dir))
     monkeypatch.setenv("PRIVATIXAI_CHUNKS_PATH", str(chunks_dir))
 
-    embeddings = [[0.1, 0.2], [0.3, 0.4]]
+    documents = [
+        "first chunk text",
+        "second chunk text",
+    ]
     metadatas = [
         {"file_id": "f1", "chunk_id": "c1", "start": 0, "end": 10},
         {"file_id": "f1", "chunk_id": "c2", "start": 10, "end": 20},
     ]
     ids = ["c1", "c2"]
 
-    upsert_embeddings(embeddings=embeddings, metadatas=metadatas, ids=ids)
+    add_documents(documents=documents, metadatas=metadatas, ids=ids)
 
     stats = get_stats()
     assert stats["chunks"] >= 2

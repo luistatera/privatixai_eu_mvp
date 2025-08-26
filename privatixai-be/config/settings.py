@@ -7,7 +7,43 @@ import os
 from pathlib import Path
 from typing import Optional, ClassVar, Set
 from pydantic_settings import BaseSettings, SettingsConfigDict
+import re
 import platform
+
+def _load_env_file(path: Path) -> None:
+    """Lightweight .env loader (no external deps). Adds keys not already in os.environ."""
+    try:
+        if not path.exists():
+            return
+        for raw_line in path.read_text(encoding="utf-8").splitlines():
+            line = raw_line.strip()
+            if not line or line.startswith("#"):
+                continue
+            if "=" not in line:
+                continue
+            key, val = line.split("=", 1)
+            key = key.strip()
+            val = val.strip().strip('"').strip("'")
+            if key and key not in os.environ:
+                os.environ[key] = val
+    except Exception:
+        # Best-effort; ignore format errors
+        pass
+
+
+def _bootstrap_env_files() -> None:
+    """Load .env.local then .env from backend root before settings are instantiated."""
+    try:
+        backend_root = Path(__file__).resolve().parents[1]
+        # Prefer .env.local, then .env
+        for fname in (".env.local", ".env"):
+            _load_env_file(backend_root / fname)
+    except Exception:
+        pass
+
+
+_bootstrap_env_files()
+
 
 class Settings(BaseSettings):
     """Application settings with environment variable support"""
@@ -25,7 +61,6 @@ class Settings(BaseSettings):
     # Mistral API model name - see https://docs.mistral.ai/api/
     DEFAULT_LLM_MODEL: str = "mistral-tiny"  # Mistral API
     WHISPER_MODEL: str = "base"
-    EMBEDDING_MODEL: str = "BAAI/bge-m3"
     
     # Paths (OS-specific)
     @property
